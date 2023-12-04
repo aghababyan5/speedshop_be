@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserService
 {
@@ -23,5 +24,9 @@ class UserService
             'avatar' => $data['avatar'] ?? null,
             'avatar_original' => $data['avatar_original'] ?? null,
         ]);
+    }
+
+    public function logout(Request $request) {
+        return $request->user()->token()->revoke();
     }
 }
