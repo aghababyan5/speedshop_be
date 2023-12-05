@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 
 class StoreProductController extends Controller
 {
@@ -20,11 +22,16 @@ class StoreProductController extends Controller
     {
         $validated_data = $request->validated();
 
-        $fileName = time().$request->file('img')->getClientOriginalName();
-        $path = $request->file('img')->storeAs('images', $fileName, 'public');
-        $validated_data['img'] = '/storage/' . $path;
+        if ($request->file('img')) {
+            $fileName = time() . $request->file('img')->getClientOriginalName();
 
-        $this->service->store($request->validated());
+            // Assuming 'images' is the disk you want to use
+            Storage::put('images/' . $fileName, file_get_contents($request->file('img')));
+
+            $validated_data['img'] = $fileName;
+        }
+
+        $this->service->store($validated_data);
 
         return response()->json([
             'message' => 'Product stored successfully'

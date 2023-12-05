@@ -8,7 +8,7 @@ use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class GetProductController extends Controller
+class ShowProductController extends Controller
 {
     protected $service;
 
