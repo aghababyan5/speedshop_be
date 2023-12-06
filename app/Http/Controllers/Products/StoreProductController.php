@@ -22,11 +22,9 @@ class StoreProductController extends Controller
     {
         $validated_data = $request->validated();
 
-        if ($request->file('img')) {
-            $fileName = time() . $request->file('img')->getClientOriginalName();
-
-            // Assuming 'images' is the disk you want to use
-            Storage::put('images/' . $fileName, file_get_contents($request->file('img')));
+        if ($image = $request->file('img')) {
+            $fileName = random_int(1, 1000) . '_' . $image->getClientOriginalName();
+            Storage::put('products/' . $fileName, file_get_contents($image));
 
             $validated_data['img'] = $fileName;
         }
