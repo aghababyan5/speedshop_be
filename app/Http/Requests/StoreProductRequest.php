@@ -32,7 +32,8 @@ class StoreProductRequest extends FormRequest
             'en_description' => 'required|string',
             'en_short_description' => 'required|string',
             'price' => 'required|integer',
-            'img' => 'required|image|mimes:jpeg, jpg, png, gif',
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,jpg,png,gif|max:2048',
             'user_id' => 'required'
         ];
     }

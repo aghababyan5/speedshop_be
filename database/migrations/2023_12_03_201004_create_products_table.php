@@ -23,7 +23,6 @@ return new class extends Migration
             $table->text('en_description')->nullable();
             $table->text('en_short_description')->nullable();
             $table->integer('price')->nullable();
-            $table->string('img', 400)->nullable();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });

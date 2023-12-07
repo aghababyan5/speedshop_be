@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\ProductImage;
+use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
@@ -10,7 +12,7 @@ class ProductService
         return Product::all();
     }
 
-    public function store($data)
+    public function storeProduct($data)
     {
         return Product::create([
             'am_title' => $data['am_title'],
@@ -23,9 +25,25 @@ class ProductService
             'en_description' => $data['en_description'],
             'en_short_description' => $data['en_short_description'],
             'price' => $data['price'],
-            'img' => $data['img'],
             'user_id' => $data['user_id']
         ]);
+    }
+
+    public function storeImages($id, $images) {
+        $product = Product::find($id);
+
+            foreach ($images as $image) {
+                $imageName = random_int(1, 1000) . '_' . $image->getClientOriginalName();
+
+                Storage::put('/productImages/' . $imageName, file_get_contents($image));
+
+                ProductImage::create([
+                    'image' => $imageName,
+                    'product_id' => $id
+                ]);
+            }
+
+        return $product;
     }
 
     public function getOne($id) {

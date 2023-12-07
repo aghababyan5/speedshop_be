@@ -7,7 +7,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Arr;
 
 class StoreProductController extends Controller
 {
@@ -21,15 +21,14 @@ class StoreProductController extends Controller
     public function __invoke(StoreProductRequest $request): JsonResponse
     {
         $validated_data = $request->validated();
+        $productWithoutImages = Arr::except($validated_data, 'images');
+        $storedProductImages = $request->file('images');
 
-        if ($image = $request->file('img')) {
-            $fileName = random_int(1, 1000) . '_' . $image->getClientOriginalName();
-            Storage::put('products/' . $fileName, file_get_contents($image));
+        $this->service->storeProduct($productWithoutImages);
 
-            $validated_data['img'] = $fileName;
-        }
+        $storedProductId = Product::latest()->first()->id;
 
-        $this->service->store($validated_data);
+        $this->service->storeImages($storedProductId, $storedProductImages);
 
         return response()->json([
             'message' => 'Product stored successfully'
