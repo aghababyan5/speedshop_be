@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('en_title', '400')->nullable();
             $table->text('en_description')->nullable();
             $table->text('en_short_description')->nullable();
-            $table->integer('price')->nullable();
+            $table->double('price')->nullable();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });

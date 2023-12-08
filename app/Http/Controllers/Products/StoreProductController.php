@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 
 class StoreProductController extends Controller
 {
+
     protected $service;
 
     public function __construct(ProductService $service)
@@ -22,16 +23,17 @@ class StoreProductController extends Controller
     {
         $validated_data = $request->validated();
         $productWithoutImages = Arr::except($validated_data, 'images');
-        $storedProductImages = $request->file('images');
 
         $this->service->storeProduct($productWithoutImages);
-
         $storedProductId = Product::latest()->first()->id;
 
-        $this->service->storeImages($storedProductId, $storedProductImages);
+        if ($storedProductImages = $request['images']) {
+            $this->service->storeImages($storedProductId, $storedProductImages);
+        }
 
         return response()->json([
-            'message' => 'Product stored successfully'
+            'message' => 'Product stored successfully',
         ]);
     }
+
 }

@@ -17,7 +17,7 @@ class UpdateProductController extends Controller
         $this->service = $service;
     }
 
-    public function __invoke(UpdateProductRequest $request): JsonResponse
+    public function __invoke(UpdateProductRequest $request, $id): JsonResponse
     {
         $validated_data = $request->validated();
 
@@ -25,7 +25,7 @@ class UpdateProductController extends Controller
         $path = $request->file('img')->storeAs('images', $fileName, 'public');
         $validated_data['img'] = '/storage/' . $path;
 
-        $this->service->update($validated_data);
+        $this->service->update($id, $validated_data);
 
         return response()->json([
             'message' => 'Product updated successfully',

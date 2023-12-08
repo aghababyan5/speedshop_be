@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\GetAuthUserController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Products\DestroyProductController;
@@ -23,13 +24,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'api'], function () {
     Route::post('/register', RegisterController::class); // tested, mnuma nkarner etaly chisht arvi vorpes fayl
-    Route::get('/all-products', GetAllProductsController::class); //tested
-    Route::get('/product/{id}', ShowProductController::class); // tested
+    Route::get('/all-products', GetAllProductsController::class); //
+    Route::get('/product/{id}', ShowProductController::class); //
     Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('/user', GetAuthUserController::class); // tested
         Route::post('/logout',  LogoutController::class); // tested
-        Route::post('/product', StoreProductController::class); // tested
-        Route::get('/user-products/{id}', GetUserProductsController::class); // tested, bayc harcakana senc petqa arvi te user_idn sovorakan dzevov petqa uxarkvi
-        Route::put('/product', UpdateProductController::class); // tested
+        Route::post('/product', StoreProductController::class); // tested, bayc nkarnery petqa test arvi fronti koxmic
+        Route::get('/user-products/{id}', GetUserProductsController::class); // sxalnerov (harcakana senc petqa arvi te user_idn sovorakan dzevov petqa uxarkvi)
+        Route::put('/product/{id}', UpdateProductController::class); //
         Route::delete('/product/{id}', DestroyProductController::class); // tested
     });
 });

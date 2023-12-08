@@ -29,4 +29,8 @@ class UserService
     public function logout(Request $request) {
         return $request->user()->token()->revoke();
     }
+
+    public function getAuthUser() {
+        return auth()->user();
+    }
 }

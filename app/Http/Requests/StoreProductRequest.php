@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,19 +23,20 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'am_title' => 'required|string',
-            'am_description' => 'required|string',
+            'am_title'             => 'required|string',
+            'am_description'       => 'required|string',
             'am_short_description' => 'required|string',
-            'ru_title' => 'required|string',
-            'ru_description' => 'required|string',
+            'ru_title'             => 'required|string',
+            'ru_description'       => 'required|string',
             'ru_short_description' => 'required|string',
-            'en_title' => 'required|string',
-            'en_description' => 'required|string',
+            'en_title'             => 'required|string',
+            'en_description'       => 'required|string',
             'en_short_description' => 'required|string',
-            'price' => 'required|integer',
-            'images' => 'required|array',
-            'images.*' => 'image|mimes:jpeg,jpg,png,gif|max:2048',
-            'user_id' => 'required'
+            'price'                => 'required|numeric',
+            'images'               => 'nullable|array',
+            'images.*'             => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'user_id'              => 'required|integer',
         ];
     }
+
 }
