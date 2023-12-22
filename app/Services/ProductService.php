@@ -4,13 +4,14 @@ namespace App\Services;
 
 use App\Models\Product;
 use App\Models\ProductImage;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductService
 {
 
-    public function getAll()
+    public function getAll(): Collection
     {
         return Product::all();
     }
